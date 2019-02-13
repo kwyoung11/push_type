@@ -15,6 +15,10 @@ module PushType
     end
 
     def new
+      if params[:copy_id]
+        @node = PushType::Node.find(params[:copy_id]).dup
+        @node.slug, @node.published_at, @node.title, @node.status = nil, nil, nil, PushType::Node.statuses[:draft]
+      end
     end
 
     def create

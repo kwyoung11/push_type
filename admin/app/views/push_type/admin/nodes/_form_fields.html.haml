@@ -5,6 +5,7 @@
         .head
           .left.btn= link_to ficon(:previous), node_back_link(@node)
           .title= yield :title
+          .right.btn= link_to ficon("page-copy"), push_type_admin.new_node_node_path(kind: @node.type, copy_id: @node.id, node_id: @node.parent)
         .body.padded
           .row.title
             .columns
