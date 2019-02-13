@@ -11,7 +11,7 @@ module PushType
       [el, label].compact.join(' ').html_safe
     end
 
-    def node_url(node)
+    def node_url_value(node)
       "http://#{request.host_with_port}/#{node.parent.permalink + '/' if node.parent}#{node.slug}"
     end
 
