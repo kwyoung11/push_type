@@ -8,6 +8,9 @@ module PushType
     def push_type_user
       respond_to?(:current_user) ? current_user : nil
     end
-    
+
+    def public_resources
+    	[]
+    end
   end
 end
