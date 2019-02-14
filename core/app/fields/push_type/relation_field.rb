@@ -41,7 +41,14 @@ module PushType
         if @opts[:scope].respond_to? :call
           relation_class.instance_exec(&@opts[:scope])
         else
-          relation_class.all
+          if relation_class.is_a?(Module) && !relation_class.is_a?(Class)
+            concrete_classes = ActiveRecord::Base.descendants.select { |c| c.included_modules.include? relation_class }
+            objects = []
+            concrete_classes.each {|cc| objects.concat(cc.all.to_a)}
+            objects
+          else
+            relation_class.all
+          end
         end
       end
     end
