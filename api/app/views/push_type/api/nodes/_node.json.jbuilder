@@ -3,7 +3,6 @@ json.type         node.type
 json.is_exposed   node.exposed?
 json.parent_id    node.parent_id
 json.title        node.title
-json.field_store  node.field_store
 json.slug         node.slug
 json.permalink    node_url(node)
 json.created_at   node.created_at
