@@ -27,6 +27,11 @@ const opts = {
       }
     },
     render: {
+      item: function(item, esc) {
+        return '<div class="item">' +
+              (item.src ? '<a href="' + esc(item.src) + '">' + esc(item.text) + '</a>' : '' + escape(item.text) + '') +
+        '</div>';
+      },
       option: function(item, esc) {
         let pre = item.depth > 0 ? '- '.repeat(item.depth) : '';
         return `<div class="option">${ pre }${ esc(item.text) }</div>`;

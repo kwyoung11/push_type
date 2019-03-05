@@ -960,6 +960,17 @@ form .asset-upload {
   }
 }
 
+.selectize-input {
+  .item {
+    a {
+      color: #444;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .selectize-dropdown {
   font-size:            1em;
   line-height:          1.5em;
