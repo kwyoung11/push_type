@@ -6,7 +6,13 @@ export default Vue.directive('node-submit', {
     let $el = $(this.el);
     $el.on('click', function(e) {
       if ( !$(e.target).is('span') ) {
-        $el.parents('form').submit();
+        if ($(e.target).hasClass("success")) {
+      		$(".node-status").val("published");
+      	} else {
+      		$(".node-status").val("draft");
+      	}
+
+      	$el.parents('form').submit();
       }
     })
   }

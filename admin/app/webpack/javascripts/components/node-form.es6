@@ -19,20 +19,19 @@ export default Vue.component('node-form', {
       return this.node.status === 'published';
     },
 
-    saveButtonText: function() {
-      switch(this.node.status) {
-        case 'draft':
-          if (this.node['new_record?'] || !this.node.published_at) {
-            return 'Save draft';
-          } else {
-            return `Unpublish ${ this.humanizedType }`;
-          }
-        case 'published':
-          if (this.node['new_record?'] || !this.node.published_at) {
-            return this.publishedAtMoment.toDate() > new Date() ? 'Publish later' : 'Publish now';
-          } else {
-            return `Save ${ this.humanizedType }`;
-          }
+    draftButtonText: function() {
+      if (this.node['new_record?'] || !this.node.published_at) {
+        return 'Save draft';
+      } else {
+        return `Unpublish ${ this.humanizedType }`;
+      }
+    },
+
+    publishButtonText: function() {
+      if (this.node['new_record?'] || !this.node.published_at) {
+        return this.publishedAtMoment.toDate() > new Date() ? 'Publish later' : 'Publish now';
+      } else {
+        return this.publishedAtMoment.toDate() > new Date() ? 'Save and publish on ' + this.publishedAtMoment.format('Do MMM YYYY, h:mma') : `Publish ${ this.humanizedType }`;
       }
     },
 
@@ -43,7 +42,9 @@ export default Vue.component('node-form', {
     publishedDates: function() {
       switch(this.node.status) {
         case 'draft':
-          return 'N/A';
+          if (this.node['new_record?'] || !this.node.published_at) {
+            return this.publishedAtMoment.toDate() > new Date() ? this.publishedAtMoment.format('Do MMM YYYY, h:mma') : 'Immediately'
+          }
         case 'published':
           if (this.node['new_record?'] || !this.node.published_at) {
             return this.publishedAtMoment.toDate() > new Date() ? this.publishedAtMoment.format('Do MMM YYYY, h:mma') : 'Immediately';
