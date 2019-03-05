@@ -68,8 +68,6 @@ module PushType
       @node_scope ||= if params[:node_id]
         @parent = PushType::Node.find params[:node_id]
         @parent.children
-      elsif node_params[:type]
-        PushType::Node.where(type: node_params[:type]).first.children
       else
         PushType::Node.roots
       end
