@@ -39169,20 +39169,19 @@
 	      return this.node.status === 'published';
 	    },
 
-	    saveButtonText: function saveButtonText() {
-	      switch (this.node.status) {
-	        case 'draft':
-	          if (this.node['new_record?'] || !this.node.published_at) {
-	            return 'Save draft';
-	          } else {
-	            return 'Unpublish ' + this.humanizedType;
-	          }
-	        case 'published':
-	          if (this.node['new_record?'] || !this.node.published_at) {
-	            return this.publishedAtMoment.toDate() > new Date() ? 'Publish later' : 'Publish now';
-	          } else {
-	            return 'Save ' + this.humanizedType;
-	          }
+	    draftButtonText: function draftButtonText() {
+	      if (this.node['new_record?'] || !this.node.published_at) {
+	        return 'Save draft';
+	      } else {
+	        return 'Unpublish ' + this.humanizedType;
+	      }
+	    },
+
+	    publishButtonText: function publishButtonText() {
+	      if (this.node['new_record?'] || !this.node.published_at) {
+	        return this.publishedAtMoment.toDate() > new Date() ? 'Publish later' : 'Publish now';
+	      } else {
+	        return this.publishedAtMoment.toDate() > new Date() ? 'Save and publish on ' + this.publishedAtMoment.format('Do MMM YYYY, h:mma') : 'Publish ' + this.humanizedType;
 	      }
 	    },
 
@@ -39193,7 +39192,9 @@
 	    publishedDates: function publishedDates() {
 	      switch (this.node.status) {
 	        case 'draft':
-	          return 'N/A';
+	          if (this.node['new_record?'] || !this.node.published_at) {
+	            return this.publishedAtMoment.toDate() > new Date() ? this.publishedAtMoment.format('Do MMM YYYY, h:mma') : 'Immediately';
+	          }
 	        case 'published':
 	          if (this.node['new_record?'] || !this.node.published_at) {
 	            return this.publishedAtMoment.toDate() > new Date() ? this.publishedAtMoment.format('Do MMM YYYY, h:mma') : 'Immediately';
@@ -56993,6 +56994,12 @@
 	    var $el = (0, _jquery2.default)(this.el);
 	    $el.on('click', function (e) {
 	      if (!(0, _jquery2.default)(e.target).is('span')) {
+	        if ((0, _jquery2.default)(e.target).hasClass("success")) {
+	          (0, _jquery2.default)(".node-status").val("published");
+	        } else {
+	          (0, _jquery2.default)(".node-status").val("draft");
+	        }
+
 	        $el.parents('form').submit();
 	      }
 	    });
@@ -57155,6 +57162,9 @@
 	      }
 	    },
 	    render: {
+	      item: function item(_item, esc) {
+	        return '<div class="item">' + (_item.src ? '<a href="' + esc(_item.src) + '">' + esc(_item.text) + '</a>' : '' + escape(_item.text) + '') + '</div>';
+	      },
 	      option: function option(item, esc) {
 	        var pre = item.depth > 0 ? '- '.repeat(item.depth) : '';
 	        return '<div class="option">' + pre + esc(item.text) + '</div>';
