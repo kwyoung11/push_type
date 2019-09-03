@@ -1,5 +1,5 @@
 %asset-form{ asset: asset_hash(@asset).to_json, :'inline-template' => true }
-  = form_for @asset, url: push_type_admin.assets_path, method: 'post', html: { 'v-bind:action' => 'saveUrl' } do |f|
+  = form_for @asset, url: push_type_admin.assets_path, method: 'post', html: { 'v-bind:action' => 'saveUrl' }, authenticity_token: form_authenticity_token do |f|
     = hidden_field_tag :_method, nil, :'v-bind:value' => 'saveMethod'
     .large-8.columns
       .container
